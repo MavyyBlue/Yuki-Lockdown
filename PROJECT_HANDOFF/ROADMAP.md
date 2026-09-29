@@ -14,3 +14,7 @@
 - Additional approved character themes/custom profile styles and localization.
 
 No cloud service, ads, analytics, remote controls or undefeatable locking are planned.
+
+## After the 1.1 phone test
+- Validate the modern shell and transparent intervention on the owner's phone, including fonts, landscape and keyboard.
+- Specify optional AI dialogue separately: minimal disclosed context, local fallback, no model-controlled rule changes, secure API credential handling, and verified supported integration route. No direct relay is promised or implemented.

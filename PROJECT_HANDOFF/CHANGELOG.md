@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.1.0 — modern presentation and transparent Yuki
+- Native bottom navigation, rounded controls, usage presentation and permission-aware Home.
+- Transparent original approved character exports; remove ImageView black background.
+- Floating character entrance/speech bubble, full touch-blocking overlay, preview and reduced motion.
+- Native time picker inputs, weekday chips, bottom-aligned rule forms.
+- VersionCode2; preserve application ID, SQLite rules and existing development signing key.
+- Safe full-source upgrade package with per-file baseline guards and idempotence.
+- Local packaging checks pass; exact Android build and phone acceptance pending.
+
+
 ## 1.0.0 — 2026-09-29, phone-test candidate
 - Native five-area Android interface and approved Yuki asset integration.
 - Deterministic policy, daily usage reconstruction, profile schedules, exemptions and domain matching.
@@ -14,3 +24,6 @@ Run 36618648320 built the application APK and completed the unit-test task, then
 
 ## API26 theme repair - run 36619520827
 CI confirmed 25 unit tests passed, app APK built, and AndroidX device-test Java compilation passed. Lint reported one error: windowLightNavigationBar requires API27 but minSdk is26. Removed the unnecessary false-valued default theme item. All previous SDK and AndroidX fixes are preserved byte-for-byte. No checks disabled. New green CI still required.
+
+## UI build repair - run 36633797483
+App and device-test Java compilation succeeded; all 25 unit tests passed. Full lint report contained one error (WrongConstant): raw font-style 0. Replaced only that expression with Typeface.NORMAL. No lint checks disabled; complete corrected CI run still pending.

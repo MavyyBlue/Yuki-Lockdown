@@ -33,3 +33,8 @@ If interrupted before commit, GitHub's next run starts from clean checkout. Loca
 The included public development key is only for personal testing; secure separate release signing is mandatory for public distribution. No Play listing/privacy review or store accessibility policy approval is included. Test target SDK upgrades, OEM service lifecycle, supported URL bar IDs, font scaling and accessibility before release.
 
 Device tests now use AndroidX Test (test APK only), not the removed legacy android.test API. The application runtime still has no third-party dependencies.
+
+## 1.1 UI and update maintenance
+Presentation lives in Ui, NavIcon and Intervention. Preview uses the same renderer without invoking rule evaluation or attempt persistence. Keep full-size touch handling in the real accessibility overlay even if the backdrop is made more transparent. Respect system animator settings and private presentation/reduce_motion. Runtime PNGs must retain alpha and remain drawable-nodpi.
+
+The 1.1 standalone workflow embeds tools/install_update.py; tools/update_baseline.json pins source blob hashes at the inspected main commit. Before any writes it checks all archive entries and all destination hashes. It allows only baseline bytes or exact target bytes; it refuses independent source edits. After success its marker causes reruns to ignore the package. Do not delete the marker or repurpose this package to overwrite newer work. No repository workflow is inside the ZIP.

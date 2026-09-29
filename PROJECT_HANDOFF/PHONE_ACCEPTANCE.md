@@ -1,3 +1,16 @@
+# 1.1 presentation acceptance
+
+Install over1.0 after a green run, retaining existing rules. Check:
+1. All five bottom destinations work; large text and landscape remain scrollable; system bars never cover actions.
+2. Home Yuki has no black rectangular backdrop. All six states retain transparency.
+3. Settings → Preview Yuki’s entrance clearly says PREVIEW and does not change rules or attempt counts.
+4. Reduce motion prevents animation; Android animation-off is also honored.
+5. Real active rule returns the target Home, then shows the correct outfit/reaction. Tap transparent regions: no underlying app taps pass through.
+6. Home, Talk to Yuki and owner bypass/edit paths work. Repeated attempts still escalate once per intervention.
+7. App/domain/profile forms save; start/end pickers and weekday chips preserve schedule behavior. Cancel should not save.
+8. Existing allowances, exemptions, schedules and signing update lineage survive installation.
+9. At large fonts/small landscape windows, scroll to every overlay action and every editor field with the keyboard open.
+
 # Phone acceptance (pending)
 
 Use the APK from a green run whose Verified source commit matches the expanded source. Android 8+. Record model, Android version, browser version and commit when reporting issues.
