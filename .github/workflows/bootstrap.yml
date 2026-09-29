@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 35
     env:
-      SOURCE_SHA256: 7eb4f2961276085d5bc5f838453b9aefc2576b851455248080b3cfa0bcbc977e
+      SOURCE_SHA256: 3ea0f26f77c3233efa3fdd83954e62cde39390e0c57d8aa499c38a2d73bd0685
       TARGET_BRANCH: ${{ github.ref_name }}
     steps:
       - uses: actions/checkout@v4
