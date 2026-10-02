@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 35
     env:
-      SOURCE_PAYLOAD_SHA256: aa7b32e50c3984acc568b39d6e713cab9a926279cba397773e8950680ee60578
+      SOURCE_PAYLOAD_SHA256: 2f47f60fb25129b7cc52d91008aa9641bf9be6f588baed84090b99587446f2f0
       TARGET_BRANCH: ${{ github.ref_name }}
     steps:
       - uses: actions/checkout@v4
@@ -33,11 +33,11 @@ jobs:
           """Guarded Pocket Yuki update. The bundled workflow must be uploaded manually."""
           import hashlib,json,os,re,shutil,stat,subprocess,tempfile,zipfile
           from pathlib import Path,PurePosixPath
-          ARCHIVE='yuki-lockdown-source-v1.3.0.zip'
+          ARCHIVE='yuki-lockdown-source-v1.4.0.zip'
           MARKER='.yuki-bootstrap.json'
           WORKFLOW='.github/workflows/bootstrap.yml'
           ROOTS={'app','assets','tools','PROJECT_HANDOFF','gradle','gradlew','gradlew.bat','settings.gradle','build.gradle','gradle.properties','README.md','.gitignore'}
-          REQUIRED={'app/build.gradle','app/src/main/AndroidManifest.xml','app/src/main/java/com/mavyy/yukilockdown/MiniYukiView.java','gradlew','settings.gradle','tools/mini_baseline.json'}
+          REQUIRED={'app/build.gradle','app/src/main/AndroidManifest.xml','app/src/main/java/com/mavyy/yukilockdown/MiniYukiView.java','app/src/main/java/com/mavyy/yukilockdown/CompanionSize.java','app/src/main/res/drawable-nodpi/yuki_adult_kiss_03.png','app/src/main/res/drawable-nodpi/yuki_adult_carry_00.png','gradlew','settings.gradle','tools/mature_baseline.json'}
           def blob(data):return hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()
           def payload_hash(z):
            h=hashlib.sha256()
@@ -49,7 +49,7 @@ jobs:
            if marker.is_symlink():raise ValueError('Symbolic marker refused')
            if marker.is_file() and json.loads(marker.read_text()).get('payload_sha256')==expected:
             if not all((root/n).is_file() for n in REQUIRED):raise ValueError('Expanded source incomplete')
-            print('Mini Yuki update installed: building current source; ZIP ignored.');return []
+            print('Adult Yuki update installed: building current source; ZIP ignored.');return []
            archive=root/ARCHIVE
            if not archive.is_file() or archive.is_symlink():raise ValueError('Upload '+ARCHIVE+' to repository root')
            with zipfile.ZipFile(archive) as z:
@@ -65,7 +65,7 @@ jobs:
              if n!=WORKFLOW:names.add(n)
             if not REQUIRED<=names or z.testzip() is not None:raise ValueError('Incomplete source archive')
             if payload_hash(z)!=expected:raise ValueError('Payload checksum mismatch')
-            baseline=json.loads(z.read('tools/mini_baseline.json'))['files']
+            baseline=json.loads(z.read('tools/mature_baseline.json'))['files']
             if not marker.is_file() or not (root/'app').is_dir():raise ValueError('Requires existing bootstrapped Yuki Lockdown app')
             for n in names:
              dest=root/n
@@ -80,7 +80,7 @@ jobs:
              for n in sorted(names):
               dest=root/n;dest.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(Path(td)/n,dest)
            (root/'gradlew').chmod(0o755)
-           marker.write_text(json.dumps({'version':4,'archive':ARCHIVE,'payload_sha256':expected},indent=2)+'\n')
+           marker.write_text(json.dumps({'version':5,'archive':ARCHIVE,'payload_sha256':expected},indent=2)+'\n')
            return sorted(names)+[MARKER]
           if __name__=='__main__':
            files=install(Path.cwd(),os.environ['SOURCE_PAYLOAD_SHA256'])
@@ -101,6 +101,7 @@ jobs:
           python3 tools/test_update.py
           python3 tools/test_pocket_update.py
           python3 tools/test_mini_update.py
+          python3 tools/test_mature_update.py
       - name: Build, unit tests and lint
         run: |
           chmod +x gradlew
@@ -129,7 +130,7 @@ jobs:
           if ! git diff --cached --quiet; then
             git config user.name 'github-actions[bot]'
             git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-            git commit -m 'Update Yuki Lockdown v1.3.0 [skip ci]'
+            git commit -m 'Update Yuki Lockdown v1.4.0 [skip ci]'
             git push origin "HEAD:refs/heads/$TARGET_BRANCH"
           fi
           commit=$(git rev-parse HEAD)
