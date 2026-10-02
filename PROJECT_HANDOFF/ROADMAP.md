@@ -20,9 +20,9 @@ No cloud service, ads, analytics, remote controls or undefeatable locking are pl
 - Specify optional AI dialogue separately: minimal disclosed context, local fallback, no model-controlled rule changes, secure API credential handling, and verified supported integration route. No direct relay is promised or implemented.
 
 ## Companion follow-ups
-- 1.4.1 adult floating companion build/test/lint verified by Actions #25. Owner likes it; complete remaining real-phone lifecycle/browser checks.
-- 1.5.0 candidate: mature animated Home Yuki and local dialogue choices into existing settings/app/domain pages. Require fresh Actions validation and phone acceptance.
-- Expand the in-app room/conversation presentation after this entry slice is accepted; original layout boards still need explicit approval.
-- Additional adult eating/reaction artwork only after its interaction design is agreed. Kiss and dedicated hoodie carry already exist.
-- Feed-data design with explicit file selection and Android deletion consent; remains unimplemented. No universal trash access assumed.
-- Optional AI integration remains separately specified; local dialogue choices do not provide an AI conversation or ChatGPT relay.
+- 1.5.0 build/test/lint/import verified by Actions #27. Owner clarified that dashboard/navigation UX should be replaced.
+- 1.6.0 candidate implements the explicitly accepted one-room flow: quiet room + adult Yuki, greeting, four choices, embedded bottom save-and-close panels. Require fresh Actions and phone/device acceptance before expanding.
+- Review actual room scale, portrait/landscape, large text, TalkBack, keyboard and rotation on the owner's phone; refine expressions/room reactions after this flow is accepted.
+- Historical UI boards are not adopted by this slice. Further artwork/themes are separate choices.
+- Adult eating/feed-data design with explicit file selection and Android deletion consent remains unimplemented. No universal trash access assumed.
+- Optional AI integration stays separately specified; local scripted dialogue is not AI conversation/ChatGPT relay. Open AI chat continues the existing external destination.

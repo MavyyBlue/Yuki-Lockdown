@@ -1,10 +1,19 @@
+# 1.6.0 — one-room visual-novel UX candidate
+
+- Room + adult animated Yuki replaces dashboard/header/bottom navigation. No visible fresh-launch controls; tap Yuki, advance greeting, choose Talk / Protected Apps / Sites / Plans.
+- Embedded bottom panels/editors/removal confirmation; fixed top-right × validates, saves and returns to dialogue. Errors retain drafts; Discard remains available.
+- Staged settings/floating preferences, ordinary draft/flow rotation snapshots, keyboard/inset-aware panel sizing and back/pause handling.
+- Existing permission/setup, usage, bypass, schedules/exemptions, AI destination and floating behavior retained; no feed deletion or AI relay.
+- Original generated cozy blue night room; all approved Yuki/runtime artwork unchanged. VersionCode8; policy/storage/manifest/signing unchanged.
+- Baseline 1.5.0 imported/validated by green Actions #27 (a52e7e4). Candidate: 42 Java + 41 importer tests and SDK resource/source checks pass locally; full Actions/device/phone acceptance pending.
+
 # 1.5.0 — companion Home candidate
 
 - Prominent mature animated Yuki on Home; tap or Talk with Yuki opens floating Settings / Protected apps / Restricted domains choices.
 - Reuses existing pages/editors and steady blink renderer; dialogue dismissal and activity animation lifecycle handled.
 - Independent in-app stage sizing; saved floating companion settings remain unchanged.
 - VersionCode 7; artwork, rules/storage, app identity/signing and Guard/Pocket behavior preserved.
-- Baseline 1.4.1 certified for build/test/lint by Actions #25, imported HEAD 4c08a574. Fresh 1.5.0 Actions/device/phone acceptance pending.
+- Baseline 1.4.1 certified for build/test/lint by Actions #25, imported HEAD 4c08a574. 1.5.0 Actions #27 verified; owner requested a one-room UX instead of the dashboard. Device/phone acceptance incomplete.
 - Local resource/Java checks, 34 Java unit tests, 37 importer tests and exact package upgrade simulation pass. Device navigation/lifecycle tests included, not executed.
 
 # 1.4.1 — steady idle and visible travel

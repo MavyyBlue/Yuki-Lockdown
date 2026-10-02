@@ -1,30 +1,28 @@
 package com.mavyy.yukilockdown;
-
-import android.app.AlertDialog;
 import android.content.Intent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.os.Bundle;
+import android.view.*;
+import android.widget.*;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.junit.Assert.*;
 
-/** Run on a disposable device, along with the existing persistence suite. */
+/** Room acceptance regressions. Run the whole suite only on a disposable device. */
 @RunWith(AndroidJUnit4.class)
 public class HomeYukiTest {
  private View text(View root,String value){if(root instanceof TextView t&&value.equals(t.getText().toString()))return root;if(root instanceof ViewGroup g)for(int i=0;i<g.getChildCount();i++){View found=text(g.getChildAt(i),value);if(found!=null)return found;}return null;}
+ private int visibleButtons(View root){if(root.getVisibility()!=View.VISIBLE)return 0;int count=root instanceof Button?1:0;if(root instanceof ViewGroup g)for(int i=0;i<g.getChildCount();i++)count+=visibleButtons(g.getChildAt(i));return count;}
+ private EditText firstField(View root){if(root instanceof EditText t)return t;if(root instanceof ViewGroup g)for(int i=0;i<g.getChildCount();i++){EditText found=firstField(g.getChildAt(i));if(found!=null)return found;}return null;}
  private MainActivity launch(){var instrumentation=InstrumentationRegistry.getInstrumentation();Intent i=new Intent(instrumentation.getTargetContext(),MainActivity.class);i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);return (MainActivity)instrumentation.startActivitySync(i);}
- @Test public void choicesNavigateToExistingEditors(){
-  for(String[] route:new String[][]{{"Settings","Diagnostics & privacy"},{"Protected apps","Protected Apps"},{"Restricted domains","Add restricted domain"}}){
-   MainActivity activity=launch();try{InstrumentationRegistry.getInstrumentation().runOnMainSync(()->{
-    HomeYuki yuki=activity.findViewById(android.R.id.content).findViewWithTag(HomeYuki.TAG);assertNotNull(yuki);yuki.openChoices();AlertDialog dialog=yuki.dialogue();assertTrue(dialog.isShowing());
-    View choice=text(dialog.getWindow().getDecorView(),route[0]);assertNotNull(choice);choice.performClick();assertFalse(dialog.isShowing());assertNotNull(text(activity.getWindow().getDecorView(),route[1]));
-   });}finally{InstrumentationRegistry.getInstrumentation().runOnMainSync(activity::finish);}
-  }
- }
- @Test public void closingAndPausingLeaveNoDialogueWindow(){MainActivity activity=launch();try{InstrumentationRegistry.getInstrumentation().runOnMainSync(()->{
-  HomeYuki yuki=activity.findViewById(android.R.id.content).findViewWithTag(HomeYuki.TAG);yuki.openChoices();AlertDialog first=yuki.dialogue();yuki.openChoices();assertSame(first,yuki.dialogue());first.getButton(AlertDialog.BUTTON_NEGATIVE).performClick();assertFalse(yuki.choicesOpen());yuki.openChoices();AlertDialog second=yuki.dialogue();yuki.pause();assertFalse(second.isShowing());assertFalse(yuki.choicesOpen());
- });}finally{InstrumentationRegistry.getInstrumentation().runOnMainSync(activity::finish);}}
+ private RoomScene scene(MainActivity activity){return (RoomScene)((ViewGroup)activity.findViewById(android.R.id.content)).getChildAt(0);}
+ private void greet(RoomScene room){View yuki=room.findViewWithTag("room_yuki");yuki.performClick();yuki.performClick();yuki.performClick();}
+ @Test public void roomStartsWithoutButtonsThenOffersFourChoices(){MainActivity activity=launch();try{InstrumentationRegistry.getInstrumentation().runOnMainSync(()->{RoomScene room=scene(activity);assertEquals(0,visibleButtons(room));View yuki=room.findViewWithTag("room_yuki");yuki.performClick();assertNotNull(text(room,"Tap to continue  ›"));assertNull(text(room,"Plans"));yuki.performClick();assertNull(text(room,"Plans"));yuki.performClick();for(String name:new String[]{"Talk","Protected Apps","Sites","Plans"})assertNotNull(text(room,name));});}finally{InstrumentationRegistry.getInstrumentation().runOnMainSync(activity::finish);}}
+ @Test public void allFourRoutesStayInTheRoomAndExitReturnsToDialogue(){for(String[] route:new String[][]{{"Talk","A little time together"},{"Protected Apps","Browse installed apps"},{"Sites","Add restricted domain"},{"Plans","Create Lockdown"}}){MainActivity activity=launch();try{InstrumentationRegistry.getInstrumentation().runOnMainSync(()->{RoomScene room=scene(activity);greet(room);text(room,route[0]).performClick();assertSame(room,scene(activity));assertNotNull(room.currentPanel());assertNotNull(text(room.currentPanel(),route[1]));room.currentPanel().findViewWithTag("room_panel_exit").performClick();assertNull(room.currentPanel());assertNotNull(text(room,"Tap to continue  ›"));});}finally{InstrumentationRegistry.getInstrumentation().runOnMainSync(activity::finish);}}}
+ @Test public void domainExitRejectsInvalidDraftThenSavesValidDraft(){MainActivity activity=launch();Store store=Store.get(activity);Rules.Config original=store.load();try{InstrumentationRegistry.getInstrumentation().runOnMainSync(()->{RoomScene room=scene(activity);greet(room);text(room,"Sites").performClick();text(room.currentPanel(),"Add restricted domain").performClick();RoomPanel editor=room.currentPanel();EditText field=firstField(editor.content());field.setText("not a domain");assertFalse(editor.saveAndClose());assertSame(editor,room.currentPanel());assertFalse(store.load().domains.contains("room-test.example"));field.setText("room-test.example");assertTrue(editor.saveAndClose());assertNull(room.currentPanel());assertTrue(store.load().domains.contains("room-test.example"));});}finally{assertTrue(store.save(original));InstrumentationRegistry.getInstrumentation().runOnMainSync(activity::finish);}}
+ @Test public void preferenceDraftWaitsForExit(){MainActivity activity=launch();Store store=Store.get(activity);Rules.Config original=store.load();try{InstrumentationRegistry.getInstrumentation().runOnMainSync(()->{RoomScene room=scene(activity);greet(room);text(room,"Talk").performClick();text(room.currentPanel(),"Settings & setup").performClick();Switch toggle=(Switch)text(room.currentPanel(),"Protection enabled");toggle.setChecked(!original.enabled);assertEquals(original.enabled,store.load().enabled);assertTrue(room.currentPanel().saveAndClose());assertEquals(!original.enabled,store.load().enabled);});}finally{assertTrue(store.save(original));InstrumentationRegistry.getInstrumentation().runOnMainSync(activity::finish);}}
+ @Test public void discardDoesNotCommitPreferenceDraft(){MainActivity activity=launch();Store store=Store.get(activity);Rules.Config original=store.load();try{InstrumentationRegistry.getInstrumentation().runOnMainSync(()->{RoomScene room=scene(activity);greet(room);text(room,"Talk").performClick();text(room.currentPanel(),"Settings & setup").performClick();((Switch)text(room.currentPanel(),"Protection enabled")).setChecked(!original.enabled);text(room.currentPanel(),"Discard unsaved changes").performClick();assertNull(room.currentPanel());assertEquals(original.enabled,store.load().enabled);});}finally{assertTrue(store.save(original));InstrumentationRegistry.getInstrumentation().runOnMainSync(activity::finish);}}
+ @Test public void closingBreakRequestNeverGrantsBypass(){MainActivity activity=launch();Store store=Store.get(activity);boolean original=store.bypassActive();try{InstrumentationRegistry.getInstrumentation().runOnMainSync(()->{RoomScene room=scene(activity);greet(room);text(room,"Talk").performClick();text(room.currentPanel(),"Settings & setup").performClick();text(room.currentPanel(),"Start emergency bypass").performClick();assertNotNull(text(room.currentPanel(),"Emergency break"));room.currentPanel().saveAndClose();assertNull(room.currentPanel());assertEquals(original,store.bypassActive());});}finally{InstrumentationRegistry.getInstrumentation().runOnMainSync(activity::finish);}}
+ @Test public void formSnapshotKeepsFieldsAndSelection(){MainActivity activity=launch();try{InstrumentationRegistry.getInstrumentation().runOnMainSync(()->{LinearLayout form=Ui.column(activity);EditText field=Ui.field(form,"Name","draft",false);CheckBox check=Ui.check(form,"Selected",true);SeekBar bar=new SeekBar(activity);bar.setMax(160);bar.setProgress(125);form.addView(bar);Bundle snapshot=RoomFormState.capture(form);field.setText("changed");check.setChecked(false);bar.setProgress(0);RoomFormState.restore(form,snapshot);assertEquals("draft",field.getText().toString());assertTrue(check.isChecked());assertEquals(125,bar.getProgress());});}finally{InstrumentationRegistry.getInstrumentation().runOnMainSync(activity::finish);}}
 }

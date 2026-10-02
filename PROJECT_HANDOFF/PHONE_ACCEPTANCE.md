@@ -1,19 +1,21 @@
-# 1.5.0 companion Home acceptance — pending
+# 1.6.0 room acceptance — pending
 
-Use the fresh green 1.5.0 APK, installing over the current app with data retained. Record device/browser versions and VERIFIED_SOURCE_COMMIT.txt. Baseline 1.4.1 passed Actions #25, but that does not certify this candidate or complete phone/browser acceptance.
+Install the fresh green candidate APK over the existing app, retaining data. Record VERIFIED_SOURCE_COMMIT.txt, phone model, Android version and browser versions. Baseline 1.5.0 passed Actions #27; this candidate still needs its own run. All instrumentation must use a disposable device because the existing Store tests clear data.
 
-1. Home shows adult white-haired, blue-eyed Yuki in her blue hoodie. Watch 15 seconds: blink briefly with fixed body/feet. No black image rectangle or shuffling.
-2. Tap Yuki and separately Talk with Yuki. Each opens exactly one floating choice card with Settings, Protected apps, Restricted domains and Close. Repeated taps must not stack cards.
-3. Choose each destination: existing settings, protected-app editor and domain editor remain available. Return through Home. Merely opening/closing/navigating must not change rules, attempt counts or bypass state.
-4. Close, Android Back and tapping outside dismiss the choices. Background/reopen, rotate and switch pages while choices are open: no stale/orphan window; correct destination survives rotation.
-5. Portrait, landscape, split screen, large fonts and TalkBack: scroll to all Home information and dialogue choices, reach Close/Back and every existing editor action. Keyboard does not cover editor Save/Cancel.
-6. Reduce motion and Android animation-off: Home Yuki remains still. Restore motion: blink returns when Home is reopened. Leave app: Home animation must stop and existing floating Yuki should restore normally.
-7. Set FLOATING size to 80 and 240 dp. Home remains independently sized. Restart and check saved floating size/manual placement, kiss Boop, suspended hoodie carry, roaming and lockout hide/restore.
-8. Confirm saved rules/exemptions/schedules survive the in-place install. Keep prior permission, app restriction, browser and bypass checklist below outstanding until exercised.
+1. Fresh launch: just original cozy blue room + adult Yuki, no header, dashboard, navigation or visible buttons. Blink is brief with fixed body/feet. Check room cropping/character size on the actual phone.
+2. Tap Yuki: greeting line appears at bottom; tap advances to second line, then Talk / Protected Apps / Sites / Plans choices. No choices appear before greeting completes. Tap line or Yuki to advance.
+3. Open all four choices: exactly one bottom-centered panel over the same room, character remains visible, 48dp top-right × stays above the scrolling content. Close returns to dialogue; tap returns to choices. No page jump.
+4. Talk: quiet scripted response, boundary/usage status, Settings & setup, Open AI chat. Chat clearly launches the configured external app. No implicit AI conversation/relay claim.
+5. Settings: change toggles, floating size/enable/wander and reduced motion. They remain drafts until ×. Close, restart and verify persisted values and room motion. Discard must restore saved values. Permission/setup disclosures and Android settings remain reachable; returning must keep drafts and refresh status.
+6. Apps: create/configure allowance, exemption and plan membership. Sites: add/edit domain and participation. Plans: edit name, times, outfit, days, selected apps/sites, warning minutes, strict/enabled. × saves; reopen/restart and confirm. Invalid input retains panel + error; fix and retry. Discard saves nothing new.
+7. Removal controls: open confirmation, Discard keeps rules; × performs removal. Rotate a normal editor/confirmation before saving: preserve route and draft fields/selections. Save errors must not silently close or overwrite corrupt saved data.
+8. Portrait/landscape, split screen, large fonts, TalkBack, keyboard: all dialogue/options/form fields are scrollable; × remains reachable above keyboard. Android Back first allows IME dismissal, then save-closes a valid panel; invalid panel remains open until fixed or discarded. During dialogue Back returns to the quiet room.
+9. Background/resume, rotate and process recreation: ordinary draft fields/settings and dialogue progress survive through Android saved state. No extra windows or lost edits. Bypass reason is deliberately not checkpointed; recreate starts a fresh full countdown. Start a strict break request: at least60s; × cancels, never grants bypass.
+10. Floating regression: retain saved80–240dp size/manual placement, kiss Boop, hoodie carry, visible roaming and reduced motion. Companion hides while app/keyboard/lockout is active and restores correctly. Verify real app/browser restrictions, schedules, counters, bypass expiry and permission revocation from the broader checklist below.
 
-Home choices are local navigation; separate Talk to Yuki still opens the configured AI app. No feed-data deletion or unapproved layout board is included.
+Feed-data deletion remains unimplemented. This is the user's accepted room-based direction, not acceptance of historical layout boards. Local resource/source compilation does not certify this Android candidate.
 
-# 1.1 presentation acceptance
+# Historical 1.1 presentation acceptance (superseded shell)
 
 Install over1.0 after a green run, retaining existing rules. Check:
 1. All five bottom destinations work; large text and landscape remain scrollable; system bars never cover actions.
@@ -30,7 +32,7 @@ Install over1.0 after a green run, retaining existing rules. Check:
 
 Use the APK from a green run whose Verified source commit matches the expanded source. Android 8+. Record model, Android version, browser version and commit when reporting issues.
 
-1. Install, open Home/Apps/Websites/Schedules/Settings. Check scrolling, font size, artwork and keyboard layout.
+1. Install, tap Yuki through the greeting, open Talk / Protected Apps / Sites / Plans. Settings & setup is inside Talk. Check scroll/font/keyboard layout.
 2. Decline each permission first; confirm clear diagnostic, editable settings and no crash. Then enable accessibility and Usage access after disclosures. Allow notifications for warnings. If Android restricts sideload accessibility settings, use App info → Allow restricted settings only if you trust this build.
 3. Mark ChatGPT and another AI app Always Allowed. Give a test app one minute. Open it until intervention; verify return Home and Talk to Yuki.
 4. Create a currently active schedule affecting that app with unused allowance. Verify immediate scheduled restriction, correct outfit and repeat attempts progressing through four lines/expressions without loops while remaining on Home.
