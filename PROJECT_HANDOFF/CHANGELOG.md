@@ -1,3 +1,9 @@
+# 1.4.1 — steady idle and visible travel
+
+- Reuse one body during idle; brief eyelid compositing replaces mismatched whole-body frames.
+- Wandering moves96dp around saved placement, chooses inward routes at edges and rests12s after arriving.
+- Existing kiss, carry, size, policy/save/signing preserved. Baseline1.4.0 green23 verified; fresh1.4.1 CI/phone check pending.
+
 # 1.4.0 candidate
 
 - Adult companion redesign; one-shot blowing kiss on Boop; dedicated hoodie-carry loop.

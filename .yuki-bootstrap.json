@@ -1,5 +1,5 @@
 {
-  "version": 5,
-  "archive": "yuki-lockdown-source-v1.4.0.zip",
-  "payload_sha256": "2f47f60fb25129b7cc52d91008aa9641bf9be6f588baed84090b99587446f2f0"
+  "version": 6,
+  "archive": "yuki-lockdown-source-v1.4.1.zip",
+  "payload_sha256": "d734fa224988e4c8b38bedc26f1432a759bd55a6f21eadb0340a69257047ce1f"
 }

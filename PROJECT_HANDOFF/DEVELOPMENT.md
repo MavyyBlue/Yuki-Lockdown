@@ -49,3 +49,6 @@ MiniYukiView uses AnimationDrawable with filtered BitmapDrawables from owner-sup
 
 ## Adult companion1.4
 New renderer resources use yuki_adult_*.png. Generated sheets in assets/companion/mature are1254px square originals; six418×627 cells each. Boop uses a finite AnimationDrawable, carry a loop. Static reduced-motion Boop selects kiss03. CompanionSize is pure viewport math with edge-case unit coverage. MainActivity saves size_dp; PocketYuki recreates the overlay when it changes. Guard lifecycle stays unchanged. Guarded updater/test are install_mature_update.py/test_mature_update.py. Historical unused mini assets need not be included in new mobile packages and are not deleted from existing checkouts.
+
+## 1.4.1 idle/wander
+IdleYukiDrawable renders base00 at418×627 and only aligns soft eyelid patches from base01 (34,-6 source translation). Two drawables share the same body/eye bitmaps; AnimationDrawable open4200ms/closed120ms. Reduced motion uses ordinary still base00. Gait remains enabled only during actual ValueAnimator position travel. CompanionWalk pure edge/path/speed math has5 tests; PresentationTest has an optional device raster regression ensuring identical lower-body pixels during blink. Guarded updater/test are install_idle_update.py/test_idle_update.py with idle_baseline.json.
