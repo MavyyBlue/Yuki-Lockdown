@@ -46,3 +46,6 @@ Run python3 tools/test_pocket_update.py for the new update guard. tools/pocket_b
 
 ## Mini Yuki1.3
 MiniYukiView uses AnimationDrawable with filtered BitmapDrawables from owner-supplied2x frames. Attach starts playback; detach stops drawable scheduling. State changes avoid rebuilding unchanged loops. PocketYuki bounds optional roaming near the saved anchor; taps/drags/hide stop movement. Reduced motion freezes both frames and transforms. See assets/approved/mini_yuki for source/upscale provenance. The new importer/install_mini_update.py uses tools/mini_baseline.json and tools/test_mini_update.py, with the same guarded/idempotent update behavior.
+
+## Adult companion1.4
+New renderer resources use yuki_adult_*.png. Generated sheets in assets/companion/mature are1254px square originals; six418×627 cells each. Boop uses a finite AnimationDrawable, carry a loop. Static reduced-motion Boop selects kiss03. CompanionSize is pure viewport math with edge-case unit coverage. MainActivity saves size_dp; PocketYuki recreates the overlay when it changes. Guard lifecycle stays unchanged. Guarded updater/test are install_mature_update.py/test_mature_update.py. Historical unused mini assets need not be included in new mobile packages and are not deleted from existing checkouts.

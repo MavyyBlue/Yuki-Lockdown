@@ -13,18 +13,20 @@ import android.widget.*;
 public final class PocketYuki {
  private final Context context; private final WindowManager windows; private final SharedPreferences prefs;
  private MiniYukiView character; private View menu; private WindowManager.LayoutParams position;
- private ValueAnimator idle,wander;private long nextWander,boopUntil;private int anchorX; private boolean moving; private int width,height,originX,originY;
+ private ValueAnimator wander;private long nextWander,boopUntil;private int anchorX; private boolean moving; private int width,height,originX,originY;
+ private int sizeDp;
  private float downX,downY; private boolean dragged; private String reaction="neutral"; private long reactionUntil;
  public PocketYuki(Context c,WindowManager w){context=c;windows=w;prefs=c.getSharedPreferences("pocket_yuki",0);}
  public void sync(boolean eligible){
   if(!eligible||!prefs.getBoolean("enabled",true)){hide();return;}
   Point size=new Point();windows.getDefaultDisplay().getSize(size);
-  if(width!=size.x||height!=size.y){hide();width=size.x;height=size.y;}
+  int requested=CompanionSize.clamp(prefs.getInt("size_dp",CompanionSize.DEFAULT));
+  if(width!=size.x||height!=size.y||sizeDp!=requested){hide();width=size.x;height=size.y;sizeDp=requested;}
   if(character==null)show();
   if(character!=null){
    long now=SystemClock.elapsedRealtime();
-   if(!Ui.motion(context)){stopWander();stopAnimation();}
-   if(wander==null)character.play(moving?"carried":now<boopUntil?"waving":now<reactionUntil?(reaction.equals("warning")?"waiting":"failed"):"idle");
+   if(!Ui.motion(context)){stopWander();}
+   if(wander==null)character.play(moving?"carried":now<boopUntil?"kiss":now<reactionUntil?(reaction.equals("warning")?"waiting":"failed"):"idle");
    if(!moving&&menu==null&&wander==null&&now>=nextWander&&now>=boopUntil&&now>=reactionUntil&&prefs.getBoolean("wander",true)&&Ui.motion(context))wander();
   }
  }
@@ -35,7 +37,7 @@ public final class PocketYuki {
  private int clamp(int v,int maximum){return Math.max(margin(),Math.min(maximum,v));}
  private void show(){
   character=new MiniYukiView(context);character.setContentDescription("Pocket Yuki. Tap for companion actions.");character.setFocusable(true);character.setClickable(true);
-  int side=Math.min(Ui.dp(context,104),Math.max(Ui.dp(context,48),width-2*margin()));position=params(side,side);position.setTitle("Pocket Yuki companion");
+  int h=CompanionSize.height(Ui.dp(context,sizeDp),width-2*margin(),height-margin()-Ui.dp(context,48));int w=CompanionSize.width(h,Ui.dp(context,48),width-2*margin());position=params(w,h);position.setTitle("Pocket Yuki companion");
   position.x=clamp(margin()+Math.round(prefs.getFloat("x",.85f)*(maxX()-margin())),maxX());position.y=clamp(margin()+Math.round(prefs.getFloat("y",.7f)*(maxY()-margin())),maxY());
   anchorX=position.x;nextWander=SystemClock.elapsedRealtime()+30000;
   character.setOnClickListener(v->{stopWander();nextWander=SystemClock.elapsedRealtime()+30000;if(moving){moving=false;animate(false);character.setContentDescription("Pocket Yuki. Tap for companion actions.");}else toggleMenu();});
@@ -49,21 +51,19 @@ public final class PocketYuki {
     default:return true;
    }
   });
-  try{windows.addView(character,position);animate(false);}catch(RuntimeException e){character=null;stopAnimation();}
+  try{windows.addView(character,position);animate(false);}catch(RuntimeException e){character=null;}
  }
  private void savePosition(){anchorX=position.x;prefs.edit().putFloat("x",(position.x-margin())/(float)Math.max(1,maxX()-margin())).putFloat("y",(position.y-margin())/(float)Math.max(1,maxY()-margin())).apply();}
  private void animate(boolean carried){
-  stopWander();stopAnimation();if(character==null)return;character.play(carried?"carried":"idle");if(!carried||!Ui.motion(context))return;
-  character.setPivotX(position.width*.5f);character.setPivotY(position.height*(carried?.25f:.9f));
-  idle=ValueAnimator.ofFloat(0,1);idle.setDuration(carried?1100:3000);idle.setRepeatCount(ValueAnimator.INFINITE);idle.setRepeatMode(ValueAnimator.REVERSE);
-  idle.addUpdateListener(a->{if(character==null)return;float f=(float)a.getAnimatedValue();character.setRotation(carried?-7+14*f:-1+2*f);character.setScaleY(carried?1:.985f+.015f*f);character.setTranslationY(carried?Ui.dp(context,3):Ui.dp(context,2)*f);});idle.start();
+  stopWander();if(character==null)return;character.play(carried?"carried":"idle");
+
  }
- private void stopAnimation(){if(idle!=null){idle.cancel();idle=null;}if(character!=null){character.setRotation(0);character.setScaleY(1);character.setTranslationY(0);}}
+
  public void react(String mode){stopWander();reaction=mode;reactionUntil=SystemClock.elapsedRealtime()+8000;if(character!=null)character.play(mode.equals("warning")?"waiting":"failed");}
  private void toggleMenu(){if(menu!=null){closeMenu();return;}if(character==null)return;
   LinearLayout content=Ui.column(context);content.setPadding(Ui.dp(context,12),Ui.dp(context,8),Ui.dp(context,12),Ui.dp(context,8));content.setBackground(Ui.shape(context,Ui.CARD,20));
   Ui.text(content,"Stay close, Darling. ♡",15,Ui.WHITE);
-  Ui.secondary(content,"Boop ♡",()->{closeMenu();Toast.makeText(context,"Booped. I noticed, Darling. ♡",Toast.LENGTH_SHORT).show();boopUntil=SystemClock.elapsedRealtime()+1440;if(character!=null)character.play("waving");});
+  Ui.secondary(content,"Boop ♡",()->{closeMenu();Toast.makeText(context,"A kiss for you, Darling. ♡",Toast.LENGTH_SHORT).show();boopUntil=SystemClock.elapsedRealtime()+1440;if(character!=null)character.restart("kiss");});
   Ui.secondary(content,"Talk — open ChatGPT",()->{closeMenu();Device.talk(context);});
   Ui.secondary(content,"Move — pick me up",()->{closeMenu();moving=true;animate(true);character.setContentDescription("Yuki is ready to move. Drag to place her, or tap to cancel.");character.announceForAccessibility("Drag Yuki to place her. Tap to cancel.");});
   Ui.secondary(content,"Hide Yuki",()->{prefs.edit().putBoolean("enabled",false).apply();hide();});Ui.secondary(content,"Close menu",this::closeMenu);
@@ -77,5 +77,5 @@ public final class PocketYuki {
  }
  private void stopWander(){if(wander!=null){ValueAnimator old=wander;wander=null;old.cancel();}nextWander=SystemClock.elapsedRealtime()+30000;}
  private void closeMenu(){if(menu!=null){try{windows.removeView(menu);}catch(RuntimeException ignored){}menu=null;}}
- public void hide(){closeMenu();moving=false;stopWander();stopAnimation();if(character!=null){character.animate().cancel();try{windows.removeView(character);}catch(RuntimeException ignored){}character=null;}}
+ public void hide(){closeMenu();moving=false;stopWander();if(character!=null){character.animate().cancel();try{windows.removeView(character);}catch(RuntimeException ignored){}character=null;}}
 }

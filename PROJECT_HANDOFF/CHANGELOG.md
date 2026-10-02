@@ -1,3 +1,10 @@
+# 1.4.0 candidate
+
+- Adult companion redesign; one-shot blowing kiss on Boop; dedicated hoodie-carry loop.
+- In-app80–240dp floating companion size setting, saved and clamped to viewport.
+- Rules/storage/signing/permissions and original intervention artwork preserved.
+- Baseline successful Actions run21 verified; fresh1.4 CI/phone acceptance pending.
+
 # Changelog
 
 ## 1.3.0 — owner-selected animated Mini Yuki
