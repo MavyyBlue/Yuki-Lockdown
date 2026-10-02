@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.2.0 — Pocket Yuki candidate
+- Tiny service-owned companion, idle/suspended motion, floating Boop/Talk/Move/Hide menu.
+- Saved normalized position, bounded dragging, reset and reduced motion.
+- Hide/restore around interventions, keyboard, screen lock and app foreground.
+- Existing warning and lockout artwork reactions; policy/storage/signing unchanged.
+- Single archive contains a manually uploaded replacement of the existing workflow.
+- Independent Java/resource compile and 25 policy +21 installer tests pass; full CI/phone acceptance pending.
+
+
 ## 1.1.0 — modern presentation and transparent Yuki
 - Native bottom navigation, rounded controls, usage presentation and permission-aware Home.
 - Transparent original approved character exports; remove ImageView black background.

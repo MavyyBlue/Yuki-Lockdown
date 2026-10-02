@@ -20,7 +20,7 @@ Configuration validation rejects invalid numeric ranges, duplicate IDs and unkno
 
 ## Assets
 
-assets/approved contains original supplied PNG/SVG files. app/src/main/res/drawable-nodpi contains scaled Android PNG exports, without density enlargement; drawable contains native vectors. Character framing uses black backgrounds supplied by owner. No artwork has been redesigned. UI text/buttons remain native and separate. App icon uses supplied adaptive layers.
+assets/approved contains original supplied PNG/SVG files. app/src/main/res/drawable-nodpi contains scaled Android PNG exports, without density enlargement; drawable contains native vectors. Character PNGs retain their approved transparent alpha. No artwork has been redesigned. UI text/buttons remain native and separate. App icon uses supplied adaptive layers.
 
 ## Bootstrap security
 
@@ -37,4 +37,9 @@ Device tests now use AndroidX Test (test APK only), not the removed legacy andro
 ## 1.1 UI and update maintenance
 Presentation lives in Ui, NavIcon and Intervention. Preview uses the same renderer without invoking rule evaluation or attempt persistence. Keep full-size touch handling in the real accessibility overlay even if the backdrop is made more transparent. Respect system animator settings and private presentation/reduce_motion. Runtime PNGs must retain alpha and remain drawable-nodpi.
 
-The 1.1 standalone workflow embeds tools/install_update.py; tools/update_baseline.json pins source blob hashes at the inspected main commit. Before any writes it checks all archive entries and all destination hashes. It allows only baseline bytes or exact target bytes; it refuses independent source edits. After success its marker causes reruns to ignore the package. Do not delete the marker or repurpose this package to overwrite newer work. No repository workflow is inside the ZIP.
+The 1.1 standalone workflow embeds tools/install_update.py; tools/update_baseline.json pins source blob hashes at the inspected main commit. Before any writes it checks all archive entries and all destination hashes. It allows only baseline bytes or exact target bytes; it refuses independent source edits. After success its marker causes reruns to ignore the package. Do not delete the marker or repurpose this package to overwrite newer work. The historical 1.1 ZIP contains no workflow. The 1.2 ZIP contains a manually uploaded replacement workflow; its importer explicitly skips that one entry and never writes or commits workflow files.
+
+## Pocket Yuki 1.2
+PocketYuki is owned by GuardService and stores only enable/normalized position in pocket_yuki preferences. It does not evaluate restrictions or modify config. Menu and companion windows are small and not focusable; explicit Close is always available. Move arms the next drag. Procedural transform motion honors reduced-motion/system animator preferences. User-owned rules and SQLite schema remain unchanged.
+
+Run python3 tools/test_pocket_update.py for the new update guard. tools/pocket_baseline.json pins inspected HEAD file hashes. The replacement workflow embeds install_pocket_update.py and a canonical payload hash (sorted filename + NUL + SHA256 bytes, excluding the bundled workflow). It validates all entries and all destinations before writing, skips workflow extraction and retains idempotence after successful installation.

@@ -18,3 +18,9 @@ No cloud service, ads, analytics, remote controls or undefeatable locking are pl
 ## After the 1.1 phone test
 - Validate the modern shell and transparent intervention on the owner's phone, including fonts, landscape and keyboard.
 - Specify optional AI dialogue separately: minimal disclosed context, local fallback, no model-controlled rule changes, secure API credential handling, and verified supported integration route. No direct relay is promised or implemented.
+
+## Companion follow-ups
+- Phone acceptance of Pocket Yuki first slice.
+- Approved drawn walk/blink/carry/boop/eating animation assets preserving neutral identity.
+- Feed-data design with explicit file selection and Android deletion consent; no universal trash access assumed.
+- Larger Yuki room with conversational entry to native settings and editors.
