@@ -1,8 +1,17 @@
+# 1.5.0 — companion Home candidate
+
+- Prominent mature animated Yuki on Home; tap or Talk with Yuki opens floating Settings / Protected apps / Restricted domains choices.
+- Reuses existing pages/editors and steady blink renderer; dialogue dismissal and activity animation lifecycle handled.
+- Independent in-app stage sizing; saved floating companion settings remain unchanged.
+- VersionCode 7; artwork, rules/storage, app identity/signing and Guard/Pocket behavior preserved.
+- Baseline 1.4.1 certified for build/test/lint by Actions #25, imported HEAD 4c08a574. Fresh 1.5.0 Actions/device/phone acceptance pending.
+- Local resource/Java checks, 34 Java unit tests, 37 importer tests and exact package upgrade simulation pass. Device navigation/lifecycle tests included, not executed.
+
 # 1.4.1 — steady idle and visible travel
 
 - Reuse one body during idle; brief eyelid compositing replaces mismatched whole-body frames.
 - Wandering moves96dp around saved placement, chooses inward routes at edges and rests12s after arriving.
-- Existing kiss, carry, size, policy/save/signing preserved. Baseline1.4.0 green23 verified; fresh1.4.1 CI/phone check pending.
+- Existing kiss, carry, size, policy/save/signing preserved. Baseline1.4.0 green23 verified; 1.4.1 CI verified by run #25; broader phone check pending.
 
 # 1.4.0 candidate
 

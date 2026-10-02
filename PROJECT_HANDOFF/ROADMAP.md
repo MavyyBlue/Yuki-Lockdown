@@ -20,8 +20,9 @@ No cloud service, ads, analytics, remote controls or undefeatable locking are pl
 - Specify optional AI dialogue separately: minimal disclosed context, local fallback, no model-controlled rule changes, secure API credential handling, and verified supported integration route. No direct relay is promised or implemented.
 
 ## Companion follow-ups
-- Phone acceptance of Pocket Yuki first slice.
-- Mini-Yuki blink/gait/wave/reaction frames are now integrated; phone acceptance pending.
-- Create dedicated hoodie-grab and eating animation assets matching selected Mini-Yuki identity.
-- Feed-data design with explicit file selection and Android deletion consent; no universal trash access assumed.
-- Larger Yuki room with conversational entry to native settings and editors.
+- 1.4.1 adult floating companion build/test/lint verified by Actions #25. Owner likes it; complete remaining real-phone lifecycle/browser checks.
+- 1.5.0 candidate: mature animated Home Yuki and local dialogue choices into existing settings/app/domain pages. Require fresh Actions validation and phone acceptance.
+- Expand the in-app room/conversation presentation after this entry slice is accepted; original layout boards still need explicit approval.
+- Additional adult eating/reaction artwork only after its interaction design is agreed. Kiss and dedicated hoodie carry already exist.
+- Feed-data design with explicit file selection and Android deletion consent; remains unimplemented. No universal trash access assumed.
+- Optional AI integration remains separately specified; local dialogue choices do not provide an AI conversation or ChatGPT relay.

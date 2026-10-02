@@ -14,11 +14,11 @@ import java.util.*;
 import java.util.concurrent.*;
 
 public final class MainActivity extends Activity {
- private LinearLayout body;private Rules.Config config;private Store store;private String page="Home";private boolean bypassRequested;
+ private HomeYuki homeYuki;private LinearLayout body;private Rules.Config config;private Store store;private String page="Home";private boolean bypassRequested,resumed;
  private final ExecutorService worker=Executors.newSingleThreadExecutor();private final Handler handler=new Handler(Looper.getMainLooper());private Map<String,Long>usage=Collections.emptyMap();
  public void onCreate(Bundle state){super.onCreate(state);store=Store.get(this);if(state!=null)page=state.getString("page","Home");bypassRequested=getIntent().getBooleanExtra("bypass",false);}
- protected void onResume(){super.onResume();GuardService.appVisible=true;config=store.load();render();worker.execute(()->{Map<String,Long>u;try{u=Device.usage(this);}catch(Exception e){u=Collections.emptyMap();}Map<String,Long>result=u;runOnUiThread(()->{if(!isFinishing()){usage=result;if(page.equals("Home"))render();}});});Warnings.schedule(this);if(bypassRequested){bypassRequested=false;page="Settings";render();bypass(getIntent().getBooleanExtra("strict",false));}}
- protected void onPause(){GuardService.appVisible=false;super.onPause();}
+ protected void onResume(){super.onResume();resumed=true;GuardService.appVisible=true;config=store.load();render();worker.execute(()->{Map<String,Long>u;try{u=Device.usage(this);}catch(Exception e){u=Collections.emptyMap();}Map<String,Long>result=u;runOnUiThread(()->{if(!isFinishing()){usage=result;if(resumed&&page.equals("Home")&&(homeYuki==null||!homeYuki.choicesOpen()))render();}});});Warnings.schedule(this);if(bypassRequested){bypassRequested=false;page="Settings";render();bypass(getIntent().getBooleanExtra("strict",false));}}
+ protected void onPause(){resumed=false;if(homeYuki!=null)homeYuki.pause();GuardService.appVisible=false;super.onPause();}
  protected void onNewIntent(Intent i){super.onNewIntent(i);setIntent(i);bypassRequested=i.getBooleanExtra("bypass",false);}
  protected void onSaveInstanceState(Bundle b){b.putString("page",page);super.onSaveInstanceState(b);}
  protected void onDestroy(){handler.removeCallbacksAndMessages(null);worker.shutdownNow();super.onDestroy();}
@@ -38,6 +38,7 @@ public final class MainActivity extends Activity {
  private void save(){if(!store.save(config))throw new IllegalStateException(store.error);Warnings.schedule(this);}
  private void saveSwitch(){try{save();}catch(Exception e){toast(e.getMessage());config=store.load();render();}}
  private void render(){
+  if(homeYuki!=null){homeYuki.pause();homeYuki=null;}
   LinearLayout root=Ui.column(this);root.setBackgroundColor(Ui.BG);root.setOnApplyWindowInsetsListener((v,insets)->{v.setPadding(insets.getSystemWindowInsetLeft(),insets.getSystemWindowInsetTop(),insets.getSystemWindowInsetRight(),insets.getSystemWindowInsetBottom());return insets.consumeSystemWindowInsets();});
   LinearLayout header=new LinearLayout(this);header.setGravity(Gravity.CENTER_VERTICAL);header.setPadding(Ui.dp(this,22),Ui.dp(this,12),Ui.dp(this,22),Ui.dp(this,8));
   ImageView logo=new ImageView(this);logo.setImageResource(R.drawable.icon_lock);logo.setContentDescription(null);header.addView(logo,new LinearLayout.LayoutParams(Ui.dp(this,26),Ui.dp(this,26)));
@@ -53,7 +54,7 @@ public final class MainActivity extends Activity {
  private void home(){
   List<String>active=new ArrayList<>();Rules.Schedule upcoming=null;ZonedDateTime next=null,now=ZonedDateTime.now();for(Rules.Schedule s:config.schedules){if(s.occurrence(now)!=null)active.add(s.name);ZonedDateTime t=s.nextStart(now);if(t!=null&&(next==null||t.isBefore(next))){next=t;upcoming=s;}}
   Ui.text(body,"A LITTLE SPACE FOR YOU",11,Ui.BLUE).setLetterSpacing(.16f);Ui.text(body,"I’ve got your back, Darling.",27,Ui.WHITE);
-  FrameLayout presence=new FrameLayout(this);android.graphics.drawable.GradientDrawable glow=new android.graphics.drawable.GradientDrawable(android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM,new int[]{0xff1d344e,Ui.BG});glow.setCornerRadius(Ui.dp(this,32));presence.setBackground(glow);ImageView yuki=Ui.characterView(this,"neutral");presence.addView(yuki,new FrameLayout.LayoutParams(-1,-1));body.addView(presence,new LinearLayout.LayoutParams(-1,Ui.dp(this,240)));
+  homeYuki=new HomeYuki(this,destination->{page=destination;config=store.load();render();});body.addView(homeYuki,new LinearLayout.LayoutParams(-1,-2));
   LinearLayout hero=Ui.card(body);String state=store.bypassActive()?"Emergency break active":!config.enabled?"Protection paused":!GuardService.connected?"Let’s finish your setup":active.isEmpty()?"Your boundaries, kept. ♡":String.join(" + ",active);Ui.text(hero,state,22,Ui.WHITE);Ui.text(hero,"You choose the rules. I’ll help you follow through.",15,Ui.MUTED);
   if(!GuardService.connected||!Device.usageAllowed(this)){Ui.secondary(hero,"Review setup",()->{page="Settings";render();});}else Ui.text(hero,"Guard connected · on your device",13,Ui.BLUE);
   if(next!=null)Ui.text(hero,"UP NEXT  ·  "+upcoming.name+"  /  "+next.format(DateTimeFormatter.ofPattern("EEE HH:mm")),13,Ui.BLUE);

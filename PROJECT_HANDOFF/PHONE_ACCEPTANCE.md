@@ -1,3 +1,18 @@
+# 1.5.0 companion Home acceptance — pending
+
+Use the fresh green 1.5.0 APK, installing over the current app with data retained. Record device/browser versions and VERIFIED_SOURCE_COMMIT.txt. Baseline 1.4.1 passed Actions #25, but that does not certify this candidate or complete phone/browser acceptance.
+
+1. Home shows adult white-haired, blue-eyed Yuki in her blue hoodie. Watch 15 seconds: blink briefly with fixed body/feet. No black image rectangle or shuffling.
+2. Tap Yuki and separately Talk with Yuki. Each opens exactly one floating choice card with Settings, Protected apps, Restricted domains and Close. Repeated taps must not stack cards.
+3. Choose each destination: existing settings, protected-app editor and domain editor remain available. Return through Home. Merely opening/closing/navigating must not change rules, attempt counts or bypass state.
+4. Close, Android Back and tapping outside dismiss the choices. Background/reopen, rotate and switch pages while choices are open: no stale/orphan window; correct destination survives rotation.
+5. Portrait, landscape, split screen, large fonts and TalkBack: scroll to all Home information and dialogue choices, reach Close/Back and every existing editor action. Keyboard does not cover editor Save/Cancel.
+6. Reduce motion and Android animation-off: Home Yuki remains still. Restore motion: blink returns when Home is reopened. Leave app: Home animation must stop and existing floating Yuki should restore normally.
+7. Set FLOATING size to 80 and 240 dp. Home remains independently sized. Restart and check saved floating size/manual placement, kiss Boop, suspended hoodie carry, roaming and lockout hide/restore.
+8. Confirm saved rules/exemptions/schedules survive the in-place install. Keep prior permission, app restriction, browser and bypass checklist below outstanding until exercised.
+
+Home choices are local navigation; separate Talk to Yuki still opens the configured AI app. No feed-data deletion or unapproved layout board is included.
+
 # 1.1 presentation acceptance
 
 Install over1.0 after a green run, retaining existing rules. Check:

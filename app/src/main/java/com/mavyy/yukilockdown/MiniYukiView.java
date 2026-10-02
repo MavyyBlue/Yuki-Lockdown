@@ -24,6 +24,7 @@ public final class MiniYukiView extends ImageView {
   loop=new AnimationDrawable();loop.setOneShot(false);loop.addFrame(new IdleYukiDrawable(idleBody,idleBlink,false),4200);loop.addFrame(new IdleYukiDrawable(idleBody,idleBlink,true),120);setImageDrawable(loop);if(isAttachedToWindow())loop.start();
  }
  private void smooth(Drawable d){if(d instanceof BitmapDrawable b){b.setFilterBitmap(true);b.setAntiAlias(true);}}
+ public void pausePlayback(){if(loop!=null)loop.stop();}
  private void stop(){if(loop!=null){loop.stop();loop=null;}}
  protected void onAttachedToWindow(){super.onAttachedToWindow();if(loop!=null&&Ui.motion(getContext()))loop.start();}
  protected void onDetachedFromWindow(){stop();state="";super.onDetachedFromWindow();}
