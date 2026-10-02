@@ -1,6 +1,17 @@
-# 1.6.0 room acceptance — pending
+# 1.7.0 context/closer-room acceptance — pending
 
-Install the fresh green candidate APK over the existing app, retaining data. Record VERIFIED_SOURCE_COMMIT.txt, phone model, Android version and browser versions. Baseline 1.5.0 passed Actions #27; this candidate still needs its own run. All instrumentation must use a disposable device because the existing Store tests clear data.
+Install only after the fresh candidate Actions run is green. Record verified source commit, phone/Android version and app versions. Baseline v1.6.0 is green Actions#29 and owner liked the room; this update still requires its own run. Optional full instrumentation uses disposable devices because Store tests clear data.
+
+1. Room portrait/landscape/large text: adult Yuki enlarged, horizontally centered and visible waist-up; no exposed feet/letterboxing distortion. Check face remains visible with dialogue/panels/keyboard and tapping still advances the existing flow. Floating slider must not change room crop.
+2. Native TikTok and YouTube: beanbag, inward gaze on left/right placement, chair/head/body steady, subtle sock/ankle kicks. Wander ON must not move the window in these apps. Leave it several cycles without touching; verify saved placement survives app switches/restart. Native packages only; browser video remains ordinary pose.
+3. Native ChatGPT: both hands on phone at chest, gaze down, blush, subtle periodic blue light; body/window fixed. No actual chat/video content detection is claimed.
+4. In each context: tap/menu, kiss Boop, Move → hoodie carry → drag left/right → release returns to appropriate inward/phone pose. Cancel Move/touch cancellation, Hide/re-enable, size80/160/240dp and edge placement. Wider beanbag is fit within existing companion bounds; assess leg animation visibility/any ankle seam at actual size. Other apps regain normal idle/wander without changing saved wander setting.
+5. Reduced motion and system animations OFF: static context art, no kicks/glow/roaming. Toggle ON: effects resume. Background/context switches, keyboard, lock screen, app room and real app/domain lockouts: companion/menu hide and correctly restore; no touch or protection bypass.
+6. Recheck saved rules/plans/allowances, supported browser restrictions, bypass deadline, permission revocation and all room drafts/save/rotation checks below. Artwork candidate acceptance is separate from Actions success.
+
+# 1.6.0 room acceptance — broader checks still pending
+
+Install the fresh green candidate APK over the existing app, retaining data. Record VERIFIED_SOURCE_COMMIT.txt, phone model, Android version and browser versions. Baseline 1.6.0 passed Actions #29; broader checks remain outstanding. All instrumentation must use a disposable device because the existing Store tests clear data.
 
 1. Fresh launch: just original cozy blue room + adult Yuki, no header, dashboard, navigation or visible buttons. Blink is brief with fixed body/feet. Check room cropping/character size on the actual phone.
 2. Tap Yuki: greeting line appears at bottom; tap advances to second line, then Talk / Protected Apps / Sites / Plans choices. No choices appear before greeting completes. Tap line or Yuki to advance.

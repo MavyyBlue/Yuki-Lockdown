@@ -43,7 +43,7 @@ public final class GuardService extends AccessibilityService {
  }
  private void dismiss(){if(overlay!=null){try{wm.removeView(overlay);}catch(Exception ignored){}overlay=null;}shown="";}
  public static void resetCompanionPosition(){GuardService service=live.get();if(service!=null)service.handler.post(()->{if(service.pocket!=null)service.pocket.hide();});}
- private void syncPocket(){if(pocket==null)return;boolean systemSetup=currentPkg.equals("com.android.systemui")||currentPkg.equals("com.android.settings")||currentPkg.contains("permissioncontroller");boolean eligible=overlay==null&&!appVisible&&!systemSetup&&getSystemService(PowerManager.class).isInteractive()&&!getSystemService(android.app.KeyguardManager.class).isKeyguardLocked();for(AccessibilityWindowInfo w:getWindows())if(w.getType()==AccessibilityWindowInfo.TYPE_INPUT_METHOD)eligible=false;pocket.sync(eligible);}
+ private void syncPocket(){if(pocket==null)return;boolean systemSetup=currentPkg.equals("com.android.systemui")||currentPkg.equals("com.android.settings")||currentPkg.contains("permissioncontroller");boolean eligible=overlay==null&&!appVisible&&!systemSetup&&getSystemService(PowerManager.class).isInteractive()&&!getSystemService(android.app.KeyguardManager.class).isKeyguardLocked();for(AccessibilityWindowInfo w:getWindows())if(w.getType()==AccessibilityWindowInfo.TYPE_INPUT_METHOD)eligible=false;pocket.sync(eligible,currentPkg);}
  public void onInterrupt(){dismiss();if(pocket!=null)pocket.hide();}
  public void onDestroy(){connected=false;live.clear();status="Disconnected";if(pocket!=null)pocket.hide();handler.removeCallbacksAndMessages(null);worker.shutdownNow();dismiss();super.onDestroy();}
 }

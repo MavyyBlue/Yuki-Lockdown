@@ -1,0 +1,11 @@
+# Context companion artwork — 1.7.0 candidate
+
+New original imagegen assets, generated with the existing mature base00 sprite as an identity reference, transparent-background mode. Runtime PNGs are unaltered tool outputs, not upscales or replaced approved artwork. Watching: 1254×1254 RGBA. Phone: 1024×1536 RGBA. Artwork is a candidate for actual-phone review, not presumed final approval.
+
+Watching generation brief: preserve mature adult Yuki, long straight white hair, blue eyes, pale skin, cozy light blue hoodie, black leggings and fluffy white socks. Seated in a small dark powder-blue beanbag, three-quarter side view facing right, relaxed affectionate gaze toward the screen center. Hands resting in lap, knees/lower legs extending right, two distinct sock feet in transparent air with beanbag behind. Full chair and feet, generous transparent margin, no scene, text, phone, hearts or chibi proportions. Native mirroring supplies inward left-facing pose.
+
+Phone generation brief: preserve the same mature adult identity and outfit. Full-body relaxed stationary stance, shoulders level, small dark vertical phone held in BOTH hands at CHEST height, gaze down at it, sweet smile, visible gentle pink cheek blush. Screen faces Yuki, plain dark phone back faces viewer. Very faint cool light on face/fingers, no chair, scenery, text, hearts or chibi proportions.
+
+No new six-frame sheets or whole-body idle transforms. ContextYukiDrawable animates only isolated socks/lower ankle regions for a slight leg kick (1.4 degrees, 2.1-second burst every 7 seconds), leaving beanbag/upper body fixed. Phone pulse overlays a local blue radial glow on existing alpha (2.16-second pulse every 6 seconds); body remains fixed. Reduced motion disables both effects. Render scheduling stops on pause/detach/state replacement. The quiet room uses the existing approved base/blink art through a waist crop; source pixels are unchanged.
+
+Official native-package references inspected 2026-10-02: https://play.google.com/store/apps/details?id=com.zhiliaoapp.musically ; https://play.google.com/store/apps/details?id=com.google.android.youtube ; https://play.google.com/store/apps/details?id=com.openai.chatgpt . This is cosmetic context only: no playback/content detection, chat relay, video reading, history or new permission.

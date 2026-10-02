@@ -14,10 +14,11 @@ public final class PocketYuki {
  private final Context context; private final WindowManager windows; private final SharedPreferences prefs;
  private MiniYukiView character; private View menu; private WindowManager.LayoutParams position;
  private ValueAnimator wander;private long nextWander,boopUntil;private int anchorX; private boolean moving; private int width,height,originX,originY;
- private int sizeDp;
+ private int sizeDp;private CompanionContext.Mode mode=CompanionContext.Mode.NORMAL;
  private float downX,downY; private boolean dragged; private String reaction="neutral"; private long reactionUntil;
  public PocketYuki(Context c,WindowManager w){context=c;windows=w;prefs=c.getSharedPreferences("pocket_yuki",0);}
- public void sync(boolean eligible){
+ public void sync(boolean eligible,String foregroundPackage){
+  CompanionContext.Mode next=CompanionContext.mode(foregroundPackage);if(next!=mode){stopWander();mode=next;}
   if(!eligible||!prefs.getBoolean("enabled",true)){hide();return;}
   Point size=new Point();windows.getDefaultDisplay().getSize(size);
   int requested=CompanionSize.clamp(prefs.getInt("size_dp",CompanionSize.DEFAULT));
@@ -25,11 +26,12 @@ public final class PocketYuki {
   if(character==null)show();
   if(character!=null){
    long now=SystemClock.elapsedRealtime();
-   if(!Ui.motion(context)){stopWander();}
-   if(wander==null)character.play(moving?"carried":now<boopUntil?"kiss":now<reactionUntil?(reaction.equals("warning")?"waiting":"failed"):"idle");
-   if(!moving&&menu==null&&wander==null&&now>=nextWander&&now>=boopUntil&&now>=reactionUntil&&prefs.getBoolean("wander",true)&&Ui.motion(context))wander();
+   if(!Ui.motion(context)||CompanionContext.stationary(mode)){stopWander();}
+   if(wander==null)character.play(pose());
+   if(!CompanionContext.stationary(mode)&&!moving&&menu==null&&wander==null&&now>=nextWander&&now>=boopUntil&&now>=reactionUntil&&prefs.getBoolean("wander",true)&&Ui.motion(context))wander();
   }
  }
+ private String pose(){long now=SystemClock.elapsedRealtime();boolean left=position!=null&&CompanionContext.faceLeft(position.x,position.width,width);return CompanionContext.pose(mode,left,moving,now<boopUntil,now<reactionUntil,reaction.equals("warning"));}
  private WindowManager.LayoutParams params(int w,int h){WindowManager.LayoutParams p=new WindowManager.LayoutParams(w,h,WindowManager.LayoutParams.TYPE_ACCESSIBILITY_OVERLAY,WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,PixelFormat.TRANSLUCENT);p.gravity=Gravity.TOP|Gravity.LEFT;return p;}
  private int margin(){return Ui.dp(context,16);}
  private int maxX(){return Math.max(margin(),width-position.width-margin());}
@@ -55,7 +57,7 @@ public final class PocketYuki {
  }
  private void savePosition(){anchorX=position.x;prefs.edit().putFloat("x",(position.x-margin())/(float)Math.max(1,maxX()-margin())).putFloat("y",(position.y-margin())/(float)Math.max(1,maxY()-margin())).apply();}
  private void animate(boolean carried){
-  stopWander();if(character==null)return;character.play(carried?"carried":"idle");
+  stopWander();if(character==null)return;character.play(carried?"carried":pose());
 
  }
 
@@ -73,7 +75,7 @@ public final class PocketYuki {
   try{windows.addView(menu,p);}catch(RuntimeException e){menu=null;}
  }
  private void wander(){
-  final int from=position.x;final int to=CompanionWalk.target(from,anchorX,margin(),maxX(),Ui.dp(context,96));nextWander=SystemClock.elapsedRealtime()+CompanionWalk.PAUSE_MS;if(from==to)return;character.play(to>from?"running_right":"running_left");wander=ValueAnimator.ofInt(from,to);wander.setDuration(CompanionWalk.duration(to-from,context.getResources().getDisplayMetrics().density));wander.addUpdateListener(a->{if(character==null)return;position.x=(int)a.getAnimatedValue();windows.updateViewLayout(character,position);});wander.addListener(new android.animation.AnimatorListenerAdapter(){public void onAnimationEnd(android.animation.Animator a){wander=null;nextWander=SystemClock.elapsedRealtime()+CompanionWalk.PAUSE_MS;if(character!=null)character.play("idle");}});wander.start();
+  final int from=position.x;final int to=CompanionWalk.target(from,anchorX,margin(),maxX(),Ui.dp(context,96));nextWander=SystemClock.elapsedRealtime()+CompanionWalk.PAUSE_MS;if(from==to)return;character.play(to>from?"running_right":"running_left");wander=ValueAnimator.ofInt(from,to);wander.setDuration(CompanionWalk.duration(to-from,context.getResources().getDisplayMetrics().density));wander.addUpdateListener(a->{if(character==null)return;position.x=(int)a.getAnimatedValue();windows.updateViewLayout(character,position);});wander.addListener(new android.animation.AnimatorListenerAdapter(){public void onAnimationEnd(android.animation.Animator a){wander=null;nextWander=SystemClock.elapsedRealtime()+CompanionWalk.PAUSE_MS;if(character!=null)character.play(pose());}});wander.start();
  }
  private void stopWander(){if(wander!=null){ValueAnimator old=wander;wander=null;old.cancel();}nextWander=SystemClock.elapsedRealtime()+CompanionWalk.PAUSE_MS;}
  private void closeMenu(){if(menu!=null){try{windows.removeView(menu);}catch(RuntimeException ignored){}menu=null;}}

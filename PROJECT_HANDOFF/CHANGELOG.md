@@ -1,4 +1,12 @@
-# 1.6.0 — one-room visual-novel UX candidate
+# 1.7.0 — closer room and context companion candidate
+
+- Enlarged centered waist-up Yuki in the room using unchanged adult source art.
+- Native TikTok/YouTube: inward-facing blue beanbag, subtle leg kicks, no roaming. Native ChatGPT: chest-level phone held in both hands, downward gaze, blush and periodic glow, no roaming.
+- Existing Move/drag, kiss Boop, temporary guard reaction priorities, saved size/placement and eligibility/lockout handling retained. Reduced motion freezes new effects.
+- New original generated context PNGs; previous approved art, rules/storage, manifest/application ID/signing key unchanged. GuardService forwards existing foreground package only.
+- VersionCode9. Baseline v1.6.0 verified/imported by green Actions#29 (11808793). 46 Java +45 importer tests and independent resource/source checks pass; fresh Actions/device/phone acceptance pending.
+
+# 1.6.0 — one-room visual-novel UX, Actions #29 verified
 
 - Room + adult animated Yuki replaces dashboard/header/bottom navigation. No visible fresh-launch controls; tap Yuki, advance greeting, choose Talk / Protected Apps / Sites / Plans.
 - Embedded bottom panels/editors/removal confirmation; fixed top-right × validates, saves and returns to dialogue. Errors retain drafts; Discard remains available.

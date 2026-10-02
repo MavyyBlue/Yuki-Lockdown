@@ -10,23 +10,28 @@ import android.widget.ImageView;
 
 /** Adult companion sprite animation; approved intervention artwork is separate. */
 public final class MiniYukiView extends ImageView {
- private Bitmap idleBody,idleBlink;
+ private final boolean waistUp;private Bitmap idleBody,idleBlink;
+ private ContextYukiDrawable contextual;private Bitmap watching,phone;
  private String state=""; private boolean animated; private AnimationDrawable loop;
- public MiniYukiView(Context c){super(c);setScaleType(ScaleType.FIT_CENTER);setBackgroundColor(Color.TRANSPARENT);play("idle");}
+ public MiniYukiView(Context c){this(c,false);}
+ public MiniYukiView(Context c,boolean waistUp){super(c);this.waistUp=waistUp;setScaleType(ScaleType.FIT_CENTER);setBackgroundColor(Color.TRANSPARENT);play("idle");}
+ @Override public void setImageDrawable(Drawable drawable){super.setImageDrawable(waistUp&&drawable!=null?new WaistYukiDrawable(drawable):drawable);}
  public void restart(String next){state="";play(next);}
- public void play(String next){boolean motion=Ui.motion(getContext());if(state.equals(next)&&animated==motion)return;stop();state=next;animated=motion;setScaleX(next.equals("running_left")?-1:1);
+ public void play(String next){boolean motion=Ui.motion(getContext());if(state.equals(next)&&animated==motion)return;stop();state=next;animated=motion;setScaleX((next.equals("running_left")||next.equals("watch_left"))?-1:1);
+  if(next.startsWith("watch_")||next.equals("phone")){context(next.equals("phone"),motion);return;}
   if(next.equals("idle")&&motion){idle();return;}int[] frames=frames(next);
   if(!motion||frames.length==1){Drawable d=getContext().getDrawable(next.equals("kiss")?R.drawable.yuki_adult_kiss_03:frames[0]);smooth(d);setImageDrawable(d);return;}
   loop=new AnimationDrawable();loop.setOneShot(next.equals("kiss"));for(int i=0;i<frames.length;i++){Drawable d=getContext().getDrawable(frames[i]);smooth(d);loop.addFrame(d,duration(next,i));}setImageDrawable(loop);if(isAttachedToWindow())loop.start();
  }
+ private void context(boolean reading,boolean motion){if(reading&&phone==null)phone=BitmapFactory.decodeResource(getResources(),R.drawable.yuki_adult_phone);if(!reading&&watching==null)watching=BitmapFactory.decodeResource(getResources(),R.drawable.yuki_adult_watch);contextual=new ContextYukiDrawable(reading?phone:watching,reading,motion);setImageDrawable(contextual);if(isAttachedToWindow())contextual.start();}
  private void idle(){
   if(idleBody==null){idleBody=BitmapFactory.decodeResource(getResources(),R.drawable.yuki_adult_base_00);idleBlink=BitmapFactory.decodeResource(getResources(),R.drawable.yuki_adult_base_01);}
   loop=new AnimationDrawable();loop.setOneShot(false);loop.addFrame(new IdleYukiDrawable(idleBody,idleBlink,false),4200);loop.addFrame(new IdleYukiDrawable(idleBody,idleBlink,true),120);setImageDrawable(loop);if(isAttachedToWindow())loop.start();
  }
  private void smooth(Drawable d){if(d instanceof BitmapDrawable b){b.setFilterBitmap(true);b.setAntiAlias(true);}}
- public void pausePlayback(){if(loop!=null)loop.stop();}
- private void stop(){if(loop!=null){loop.stop();loop=null;}}
- protected void onAttachedToWindow(){super.onAttachedToWindow();if(loop!=null&&Ui.motion(getContext()))loop.start();}
+ public void pausePlayback(){if(loop!=null)loop.stop();if(contextual!=null)contextual.stop();}
+ private void stop(){if(contextual!=null){contextual.stop();contextual=null;}if(loop!=null){loop.stop();loop=null;}}
+ protected void onAttachedToWindow(){super.onAttachedToWindow();if(contextual!=null)contextual.start();if(loop!=null&&Ui.motion(getContext()))loop.start();}
  protected void onDetachedFromWindow(){stop();state="";super.onDetachedFromWindow();}
  private static int duration(String state,int frame){if(state.equals("idle"))return frame==1?140:1200;return state.startsWith("running_")?220:180;}
  private static int[] frames(String state){return switch(state){

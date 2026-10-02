@@ -1,0 +1,9 @@
+package com.mavyy.yukilockdown;
+import org.junit.Test;
+import static org.junit.Assert.*;
+public class CompanionContextTest {
+ @Test public void exactNativePackagesOnly(){assertEquals(CompanionContext.Mode.WATCH,CompanionContext.mode("com.zhiliaoapp.musically"));assertEquals(CompanionContext.Mode.WATCH,CompanionContext.mode("com.google.android.youtube"));assertEquals(CompanionContext.Mode.PHONE,CompanionContext.mode("com.openai.chatgpt"));for(String p:new String[]{null,"","com.android.chrome","fake.com.openai.chatgpt","com.google.android.youtube.fake"})assertEquals(CompanionContext.Mode.NORMAL,CompanionContext.mode(p));}
+ @Test public void contextNeverWanders(){assertTrue(CompanionContext.stationary(CompanionContext.Mode.WATCH));assertTrue(CompanionContext.stationary(CompanionContext.Mode.PHONE));assertFalse(CompanionContext.stationary(CompanionContext.Mode.NORMAL));}
+ @Test public void inwardFacingAfterPlacement(){assertFalse(CompanionContext.faceLeft(0,100,400));assertTrue(CompanionContext.faceLeft(300,100,400));assertFalse(CompanionContext.faceLeft(150,100,400));}
+ @Test public void interactionPriorityReturnsToContext(){for(CompanionContext.Mode mode:CompanionContext.Mode.values()){assertEquals("carried",CompanionContext.pose(mode,false,true,true,true,true));assertEquals("kiss",CompanionContext.pose(mode,false,false,true,true,true));assertEquals("waiting",CompanionContext.pose(mode,false,false,false,true,true));assertEquals("failed",CompanionContext.pose(mode,false,false,false,true,false));}assertEquals("watch_left",CompanionContext.pose(CompanionContext.Mode.WATCH,true,false,false,false,false));assertEquals("watch_right",CompanionContext.pose(CompanionContext.Mode.WATCH,false,false,false,false,false));assertEquals("phone",CompanionContext.pose(CompanionContext.Mode.PHONE,true,false,false,false,false));}
+}
