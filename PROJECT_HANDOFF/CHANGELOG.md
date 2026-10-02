@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.0 — owner-selected animated Mini Yuki
+- 57 supplied frames smoothly resampled2x without redraw; native blink/gait/wave/reaction playback.
+- Bounded nearby roaming with owner toggle; saved anchor and drag lifecycle preserved.
+- Existing jump frame for suspended carry; custom hoodie-grab pose pending.
+- VersionCode4, unchanged rule/storage/signing identity; fresh CI/phone acceptance required.
+- Baseline1.2 validated by green Actions#19; stale pending-build docs corrected.
+
+
 ## 1.2.0 — Pocket Yuki candidate
 - Tiny service-owned companion, idle/suspended motion, floating Boop/Talk/Move/Hide menu.
 - Saved normalized position, bounded dragging, reset and reduced motion.

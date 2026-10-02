@@ -21,6 +21,7 @@ No cloud service, ads, analytics, remote controls or undefeatable locking are pl
 
 ## Companion follow-ups
 - Phone acceptance of Pocket Yuki first slice.
-- Approved drawn walk/blink/carry/boop/eating animation assets preserving neutral identity.
+- Mini-Yuki blink/gait/wave/reaction frames are now integrated; phone acceptance pending.
+- Create dedicated hoodie-grab and eating animation assets matching selected Mini-Yuki identity.
 - Feed-data design with explicit file selection and Android deletion consent; no universal trash access assumed.
 - Larger Yuki room with conversational entry to native settings and editors.

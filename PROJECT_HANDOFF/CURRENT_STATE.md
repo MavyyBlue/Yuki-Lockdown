@@ -1,27 +1,21 @@
-# Current state — Pocket Yuki 1.2.0 candidate
+# Current state — Mini Yuki 1.3.0 candidate
 
-Inspected live main: 4b749207551093a3945c32d7db5810fb1781090a. Actions run #16 (36635119525) passed Android build, unit tests, lint and test-APK compilation and committed that HEAD. Emulator execution was skipped. Previous docs stating the 1.1 build was pending were stale. Phone acceptance is still pending.
+Live main inspected: 55473d3c0333ef1ef193db63e6547ccb8c5550f2. Latest Actions run #19 /36962697324 succeeded on that SHA: build, unit tests, lint and test-APK compilation; emulator execution skipped. This supersedes the stale pending-build claims for 1.2. Phone acceptance has not been reported in this chat.
 
-## Implemented slice
+## This slice
 
-PocketYuki is a small accessibility overlay owned by the existing GuardService, enabled by default and switchable in Settings. Approved neutral artwork has procedural idle sway/breathing. Tap opens a small scrollable hovering menu: Boop, Talk, Move, Hide, Close. Move arms dragging with a suspended sway; release saves normalized position. Cancel restores the starting point. Bounds are clamped on display changes; a settings action resets position. Reduced motion and the system animator switch are honored. No new permission, runtime dependency, network access or rule authority is added.
+Owner selected Mini-Yuki-Creation.zip as the companion and requested smoother scaling. Nine animation rows provide 57 final transparent 192x208 frames. Each is deterministically resampled with Mitchell filtering to 384x416, with no new artwork/detail. Original source atlas and manifest are preserved; 16 look directions are retained there for future integration. No ChatGPT Work pet was modified or activated by this Android integration.
 
-The companion hides before the real blocking surface is attached and returns on the next eligible service tick after dismissal. It also hides when the keyboard is visible, the device is asleep/locked, this Activity is open, or system setup/permission surfaces are detected. Hiding removes both menu and character windows and cancels animation. Guard disconnect/destroy removes the windows. Warning delivery briefly selects warning artwork; restrictions select the existing outfit/escalation artwork. Position survives app/process restart via private preferences, independently of rule storage.
+MiniYukiView replaces only the companion's static ImageView. Native frame playback shows blink/idle; nearby roaming uses supplied left/right gait loops; Boop waves; schedule warnings use waiting; return after lockout uses failed. Carry freezes the existing airborne jump frame with suspended sway, not a custom hoodie-grab pose. Reduced motion/system animation-off freeze playback and stop movement. A new settings toggle disables wandering. The companion wanders by at most24dp on either side of the saved anchor, approximately every30 seconds; roaming never writes saved placement. Dragging saves placement. Tapping cancels roaming before opening its menu. Hiding removes the view and cancels frame/movement callbacks; lockout/app/keyboard/lock-screen behavior remains as in1.2.
 
-The small companion window consumes its own rectangle only; the real intervention remains full-size and touch-blocking. No companion view is inserted into policy evaluation. Rules, Store, Device, UsageLedger, browser detection, application ID and development key remain unchanged. VersionCode 3 supports an in-place upgrade.
-
-## Scope and limitations
-
-This is the agreed first companion slice. Motion transforms animate approved static PNGs; they are not a drawn walk cycle, blinking facial rig or custom hoodie-grab pose. Feed-data deletion, walking, expressive animation assets and the larger character-centered room are not implemented. No disabled fake feed action is presented. The six proposed layout boards remain unapproved. Existing 24-hour equal-time schedule behavior is preserved.
-
-Companion persistence depends on the owner-enabled accessibility service. Android/OEM power management and permission revocation can stop it. It is not guaranteed over every system/protected screen. Dragging, inset behavior, keyboard hiding, TalkBack and OEM lifecycle require phone tests.
+All existing boundary policy/storage/usage/browser code, original six blocking-surface images, application ID and signing key are unchanged. VersionCode4. Existing five-area app UI remains; the larger conversational room has not been implemented. Proposed layout boards remain unapproved. Feed-data deletion/eating and custom hoodie pose remain future work.
 
 ## Validation
 
-Local: all main Java sources compile against API35 using Eclipse ECJ with the Android namespace JAR; Android resources compile and link with aapt2; 25 existing policy/usage unit tests pass; 21 installer safety tests pass. Exact packaged update is simulated against baseline with idempotence, owner-edit refusal and workflow preservation.
+Independent API35 resource compile/link and main Java compilation pass. Existing25 policy tests and25 installer tests pass.57 runtime PNGs are RGBA384x416 with transparent corners; frame counts and updated manifest hashes checked. Exact source ZIP upgrade against inspected baseline is simulated; workflow preservation, rerun idempotence and independent-source edit refusal are checked.
 
-Full Gradle attempt failed before compilation because AGP 8.9.2 could not resolve in this environment. These independent checks do not certify full Gradle build, lint, DEX packaging or instrumentation. A fresh green GitHub run on the imported source and real-phone checks are required before installation acceptance.
+Full Gradle/lint and instrumentation for THIS candidate remain pending: this environment previously failed to resolve AGP8.9.2. No APK is presented as certified. The matching manually uploaded workflow keeps full build/test/lint and device-test compilation gates, with optional emulator dispatch. Real-phone tests must cover sprite timing, drag/menu interactions, saved placement, lockout hide/restore, large text, reduced motion, orientation and service lifecycle.
 
-## One-ZIP update
+## Upload
 
-The old workflow pins version1.1 and ignores replacement ZIPs after its marker. This single source ZIP includes a replacement for the EXISTING .github/workflows/bootstrap.yml. The owner extracts and uploads that file manually, then uploads the original ZIP at the root. It is not a second workflow. The updater verifies a pinned canonical source-payload digest, validates all paths and baseline destination hashes before writes, and never extracts or commits .github files. The workflow is excluded from the payload hash to avoid a self-referential ZIP checksum. Subsequent runs build expanded source without restoring the archive. See MOBILE_UPLOAD.md.
+Deliver yuki-lockdown-source-v1.3.0.zip and matching bootstrap.yml separately as requested. Replace the EXISTING .github/workflows/bootstrap.yml and upload the intact ZIP at repository root. Installer pins a canonical payload digest, guards all destination hashes using tools/mini_baseline.json, and skips the bundled workflow. It never writes or commits workflows. It requires the existing bootstrapped app. Subsequent runs build expanded source without restoring archive. See MOBILE_UPLOAD.md.
