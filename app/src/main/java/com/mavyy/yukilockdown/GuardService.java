@@ -15,6 +15,7 @@ public final class GuardService extends AccessibilityService {
  private final Handler handler=new Handler(Looper.getMainLooper());private final ExecutorService worker=Executors.newSingleThreadExecutor();
  private volatile Map<String,Long>usage=Collections.emptyMap();private volatile boolean fetching;private long lastUsage,lastEvent;
  private static java.lang.ref.WeakReference<GuardService> live=new java.lang.ref.WeakReference<>(null);static volatile boolean appVisible;private PocketYuki pocket;
+ public static void companionReact(String state){GuardService s=live.get();if(s!=null)s.handler.post(()->{if(s.pocket!=null)s.pocket.react(state);});}
  public static void companionWarning(){GuardService service=live.get();if(service!=null)service.handler.post(()->{if(service.pocket!=null)service.pocket.react("warning");});}
  private WindowManager wm;private View overlay;private String shown="",currentPkg="",currentDomain="",launcher="";private Set<String>safe=Collections.emptySet();
  private final Runnable tick=new Runnable(){public void run(){refreshUsage();inspect();syncPocket();handler.postDelayed(this,1000);}};

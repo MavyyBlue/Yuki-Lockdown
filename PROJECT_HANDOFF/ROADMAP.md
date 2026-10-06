@@ -1,32 +1,5 @@
-# Roadmap
+# Roadmap status
 
-## Required before calling production-ready
-- Green build/test/lint on the exact packaged source; instrumentation on API26 and API35.
-- Complete real-phone checklist, including Samsung/Pixel/OEM service lifecycle and permission revocation.
-- Verify supported browser URL bar IDs on installed versions; communicate partial web coverage.
-- Review accessibility, large text, edge-to-edge insets and overlay behavior on target phones.
-- Private release signing, reproducible release process and distribution/privacy review.
+Owner-directed authenticated control implementation is in source: full mutable app-owned rules/config/companion/dialogue/reaction/break controls through versioned, mutually certificate-pinned Binder IPC. No insecure generic CRUD or UI automation is exposed. Existing safety checks remain authoritative.
 
-## Later improvements
-- More browser adapters with targeted regression coverage.
-- Evaluate optional local VPN/domain filtering only with an explicit design for encrypted DNS, VPN conflicts, owner exemptions and honest limitations; no network-wide enforcement is currently claimed.
-- Config export/import with versioned validation; migrations; finer diagnostics without browsing logs.
-- Additional approved character themes/custom profile styles and localization.
-
-No cloud service, ads, analytics, remote controls or undefeatable locking are planned.
-
-## After the 1.1 phone test
-- Validate the modern shell and transparent intervention on the owner's phone, including fonts, landscape and keyboard.
-- Specify optional AI dialogue separately: minimal disclosed context, local fallback, no model-controlled rule changes, secure API credential handling, and verified supported integration route. No direct relay is promised or implemented.
-
-## Companion follow-ups
-- 1.5.0 build/test/lint/import verified by Actions #27. Owner clarified that dashboard/navigation UX should be replaced.
-- 1.6.0, verified/imported by Actions #29, implements the explicitly accepted one-room flow: quiet room + adult Yuki, greeting, four choices, embedded bottom save-and-close panels. Owner gave positive room feedback; broader phone/device acceptance is still pending.
-- Review actual room scale, portrait/landscape, large text, TalkBack, keyboard and rotation on the owner's phone; refine expressions/room reactions after this flow is accepted.
-- Historical UI boards are not adopted by this slice. Further artwork/themes are separate choices.
-- Adult eating/feed-data design with explicit file selection and Android deletion consent remains unimplemented. No universal trash access assumed.
-- Optional AI integration stays separately specified; local scripted dialogue is not AI conversation/ChatGPT relay. Open AI chat continues the existing external destination.
-
-## Current bounded slice — 1.7.0
-- Centered enlarged waist-up room Yuki; stationary inward-facing beanbag pose in native TikTok/YouTube and two-hand phone/blush/glow pose in native ChatGPT. No content detection/AI relay.
-- Require fresh Actions and phone acceptance of cropping, scaled beanbag visibility, drag/Boop/context transitions/reduced motion and lockout hide/restore before further pose or room changes.
+Automated verification and owner acceptance are distinct. Full host Gradle tests/build/lint and importer checks verify this update. Actual two-app signed installation, IPC, guard/companion state and background behavior remain Galaxy owner acceptance. Android-test APK compilation does not claim emulator execution.

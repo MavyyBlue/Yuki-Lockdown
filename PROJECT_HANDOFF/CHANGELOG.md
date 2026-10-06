@@ -1,3 +1,11 @@
+# 2026-10-06 — 1.8 authenticated Local Yuki control
+
+- Add certificate-pinned, owner-enabled typed version1 ContentProvider bridge and reverse provider/result verification in Local Yuki.
+- Expose mutable rules/plans/controls/companion/dialogue/reaction/break settings with original invariant validation, state-digest concurrency and idempotent durable receipts.
+- Add schema1→2 receipt journal, UI stale-draft protection, live companion/dialogue synchronization and restart dialogue restoration.
+- Add authentication/protocol/migration/countdown regressions and complete guarded mobile source update. Preserve original signing identity.
+- Local Gradle unit/build/lint and Android-test APK compilation verified; exact new CI and real owner acceptance recorded separately.
+
 # 1.7.0 — closer room and context companion candidate
 
 - Enlarged centered waist-up Yuki in the room using unchanged adult source art.
